@@ -1,3 +1,21 @@
 from django.db import models
 
-# Create your models here.
+
+class ReleaseBase(models.Model):
+    version_id = models.CharField(max_length=10, unique=True, primary_key=True)
+    release_date = models.DateField()
+    end_of_life_date = models.DateField(null=True, blank=True)
+    is_supported = models.BooleanField(default=True)
+    doc_url = models.URLField()
+
+    class Meta:
+        abstract = True
+
+
+class PythonVersion(ReleaseBase):
+    pass
+
+
+class DjangoVersion(ReleaseBase):
+    is_lts = models.BooleanField(default=False)
+    supported_python = models.ForeignKey(PythonVersion, on_delete=models.CASCADE)
