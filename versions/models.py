@@ -18,4 +18,4 @@ class PythonVersion(ReleaseBase):
 
 class DjangoVersion(ReleaseBase):
     is_lts = models.BooleanField(default=False)
-    supported_python = models.ForeignKey(PythonVersion, on_delete=models.CASCADE)
+    python_version = models.ForeignKey(PythonVersion, on_delete=models.CASCADE)
