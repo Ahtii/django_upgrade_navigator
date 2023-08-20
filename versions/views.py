@@ -1,4 +1,4 @@
-from rest_framework.generics import GenericAPIView
+from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from versions.models import DjangoVersion
@@ -8,21 +8,15 @@ from versions.serializers import DjangoVersionSerializer
 from versions.serializers import PythonVersionSerializer
 
 
-class DjangoVersionAPIView(GenericAPIView):
-    queryset = DjangoVersion.objects.all()
-    serializer_class = DjangoVersionSerializer
-
+class DjangoVersionAPIView(APIView):
     def get(self, request, pk):
-        instance = self.get_object()
-        serialized_data = self.get_serializer(instance).data
+        instance = DjangoVersion.objects.filter(pk=pk).first()
+        serialized_data = DjangoVersionSerializer(instance).data if instance else dict()
         return Response(serialized_data)
 
 
-class PythonVersionAPIView(GenericAPIView):
-    queryset = PythonVersion.objects.all()
-    serializer_class = PythonVersionSerializer
-
+class PythonVersionAPIView(APIView):
     def get(self, request, pk):
-        instance = self.get_object()
-        serialized_data = self.get_serializer(instance).data
+        instance = PythonVersion.objects.filter(pk=pk).first()
+        serialized_data = PythonVersionSerializer(instance).data if instance else dict()
         return Response(serialized_data)
