@@ -8,15 +8,27 @@ from versions.serializers import DjangoVersionSerializer
 from versions.serializers import PythonVersionSerializer
 
 
-class DjangoVersionAPIView(APIView):
+class BaseAPIView(APIView):
+    model = None
+    serializer = None
+
     def get(self, request, pk=None):
-        instances = DjangoVersion.objects.by_pk_else_all(pk)
-        serialized_data = DjangoVersionSerializer(instances, many=True).data if instances else dict()
+        instances = self.model.objects.by_pk_else_all(pk)
+        serialized_data = self.serializer(instances, many=True).data if instances else dict()
         return Response(serialized_data)
 
 
-class PythonVersionAPIView(APIView):
+class DjangoVersionAPIView(BaseAPIView):
+    model = DjangoVersion
+    serializer = DjangoVersionSerializer
+
     def get(self, request, pk=None):
-        instances = PythonVersion.objects.by_pk_else_all(pk)
-        serialized_data = PythonVersionSerializer(instances, many=True).data if instances else dict()
-        return Response(serialized_data)
+        return super().get(request, pk)
+
+
+class PythonVersionAPIView(BaseAPIView):
+    model = PythonVersion
+    serializer = PythonVersionSerializer
+
+    def get(self, request, pk=None):
+        return super().get(request, pk)
