@@ -9,14 +9,14 @@ from versions.serializers import PythonVersionSerializer
 
 
 class DjangoVersionAPIView(APIView):
-    def get(self, request, pk):
-        instance = DjangoVersion.objects.filter(pk=pk).first()
-        serialized_data = DjangoVersionSerializer(instance).data if instance else dict()
+    def get(self, request, pk=None):
+        instances = DjangoVersion.objects.by_pk_else_all(pk)
+        serialized_data = DjangoVersionSerializer(instances, many=True).data if instances else dict()
         return Response(serialized_data)
 
 
 class PythonVersionAPIView(APIView):
-    def get(self, request, pk):
-        instance = PythonVersion.objects.filter(pk=pk).first()
-        serialized_data = PythonVersionSerializer(instance).data if instance else dict()
+    def get(self, request, pk=None):
+        instances = PythonVersion.objects.by_pk_else_all(pk)
+        serialized_data = PythonVersionSerializer(instances, many=True).data if instances else dict()
         return Response(serialized_data)
