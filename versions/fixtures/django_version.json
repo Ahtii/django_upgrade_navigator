@@ -1,0 +1,14 @@
+[
+{
+    "model": "versions.djangoversion",
+    "pk": "4.0",
+    "fields": {
+        "release_date": "2021-12-07",
+        "end_of_life_date": "2023-04-01",
+        "is_supported": false,
+        "doc_url": "https://docs.djangoproject.com/en/4.0/releases/4.0/",
+        "is_lts": false,
+        "python_version": "3.8.0"
+    }
+}
+]
